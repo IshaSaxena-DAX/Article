@@ -1,6 +1,14 @@
 <h1> Showing article details </h1>
 <p>  <strong>Title: </strong><%=@article.title%></p>
 <p><strong>Description: </strong><%=@article.description%></p>
+<%= link_to 'Edit', edit_article_path(@article)%> 
+<br>
+<br>
+<%= button_to 'Delete', article_path(@article), method: :delete, data: { confirm: 'Are you sure you want to delete this article?' } %>
+<br>
+<%= link_to 'Return to articles listing', articles_path%>
+
+
 <!-- 
 <% %>: Executes Ruby code but does not render its result to the view. Useful for logic and control flow.
 <%= %>: Executes Ruby code and renders the result to the view. Useful for displaying data.
