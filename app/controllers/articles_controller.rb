@@ -1,20 +1,25 @@
 class ArticlesController < ApplicationController
-    #Actions are methods defined within the controller class
+  before_action :set_article, only: [:show, :edit, :update, :destroy]  
+
    def show
-     # byebug= Execution will pause here, allowing you to inspect variables and step through code
-    @article = Article.find(params[:id]) # we need to create instance variable
+    # @article = Article.find(params[:id]) # we need to create instance variable
    end
+
    def index
     @articles = Article.all
    end
+
    def new
     @article= Article.new
    end
+
    def edit
-    @article = Article.find(params[:id])
+    # @article = Article.find(params[:id]) #Finds the specific article record by its ID
    end
+
    def create
-    @article = Article.new(params.require(:article).permit(:title, :description))
+   # @article = Article.new(params.require(:article).permit(:title, :description))
+   @article = Article.new(article_params)
     if @article.save
       flash[:notice] = "Article was created successfully."
       redirect_to @article 
@@ -22,11 +27,13 @@ class ArticlesController < ApplicationController
       render 'new'
     end
   end
+  
   def update
-    @article = Article.find(params[:id])
-    if @article.update(params.require(:article).permit(:title, :description))
+    # @article = Article.find(params[:id])
+    #if @article.update(params.require(:article).permit(:title, :description))
+    if @article.update(article_params)
       flash[:notice] = "Article was updated successfully."
-      redirect_to @article
+      redirect_to @article #This Rails path helper generates the URL for the show action of the ArticlesController
     else
       render 'edit'  # This should render the `edit.html.erb` view with errors
     end
@@ -34,10 +41,23 @@ class ArticlesController < ApplicationController
   
 
    def destroy
-    @article = Article.find(params[:id])
+    # @article = Article.find(params[:id])
     @article.destroy
-    redirect_to articles_path
+    redirect_to articles_path #This Rails path helper generates the URL for the index action of the ArticlesController
    end
+
+
+   private
+
+   #DRY 
+   def set_article
+     @article = Article.find(params[:id])
+   end
+ 
+   def article_params
+     params.require(:article).permit(:title, :description)
+   end
+ 
 
 end
 =begin
