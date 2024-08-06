@@ -35,7 +35,8 @@ class ArticlesController < ApplicationController
       flash[:notice] = "Article was updated successfully."
       redirect_to @article #This Rails path helper generates the URL for the show action of the ArticlesController
     else
-      render 'edit'  # This should render the `edit.html.erb` view with errors
+      
+      render 'edit', status: :unprocessable_entity  # This should render the `edit.html.erb` view with errors
     end
   end
   
